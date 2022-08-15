@@ -1,12 +1,18 @@
 import { Sequelize } from "sequelize";
 
-export const db = new Sequelize(
-  process.env.DATABASE_NAME,
-  process.env.DATABASE_USER,
-  process.env.DATABASE_PASS,
-  {
-    dialect: "mysql",
-    host: process.env.DATABASE_HOST,
-    port: +process.env.DATABASE_PORT, //usa como int
+export const db = new Sequelize("mysql-docker", "root", "root", {
+  dialect: "mysql",
+  host: "localhost",
+  port: 3306, //usa como int
+});
+
+async function test() {
+  try {
+    await db.authenticate();
+    console.log("Conectado com sucesso.");
+  } catch (error) {
+    console.error("Houve falha ao conectar:", error);
   }
-);
+}
+
+test();
