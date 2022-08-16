@@ -16,7 +16,7 @@ export const UserModel = db.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  yearsOld: {
+  age: {
     type: DataTypes.INTEGER,
   },
 });
