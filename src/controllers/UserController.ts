@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserModel } from "../database/models/UserModel";
+const createError = require("http-errors");
 
 class UserController {
   async findAll(req: Request, res: Response) {
@@ -21,13 +22,11 @@ class UserController {
         },
       });
 
-      if (!user) {
-        throw new Error("Não encontrado");
-      }
+      if (!user) throw createError(404, `User not found`);
 
       return res.status(200).json(user);
     } catch (error) {
-      return res.status(404).send(error);
+      return res.status(error.status).send(error);
     }
   }
 
@@ -40,10 +39,10 @@ class UserController {
         name,
         age,
       });
+
       return res.status(201).json(user);
     } catch (error) {
-      console.log("Erro ao criar: ", error);
-      return res.status(404);
+      return res.status(400).send(error);
     }
   }
 
